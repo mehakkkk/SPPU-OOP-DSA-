@@ -1,0 +1,168 @@
+#include<iostream>
+using namespace std;
+class node
+{
+    node *next;
+    int power,coeff;
+    friend class list;
+};
+class list 
+{
+    public:
+    node *start,*start1,*start2;
+    list()
+    {
+        start=start1=start2=NULL;
+    }
+    void getexp1();
+    void display(node *);
+    void getexp2();
+    void addlist();
+};
+void list::getexp1()
+{
+    int n,c;
+    node *head;
+    cout<<"\nenter maximum degree:";
+    cin>>n;
+    for(int i=n;i>=0;i--)
+    {
+        cout<<"\nenter coefficient:";
+        cin>>c;
+      if(start==NULL)
+      {
+          start=new node;
+          start->power=i;
+          start->coeff=c;
+          start->next=NULL;
+          head=start;
+          
+      }
+      else
+      {
+          head->next=new node;
+          head=head->next;
+          head->power=i;
+          head->coeff=c;
+          head->next=NULL;
+      }
+    }
+}
+void list::getexp2()
+{
+    int n,c;
+    node *head;
+    cout<<"\nenter maximum degree:";
+    cin>>n;
+    for(int i=n;i>=0;i--)
+    {
+        cout<<"\nenter coefficient:";
+        cin>>c;
+      if(start1==NULL)
+      {
+          start1=new node;
+          start1->power=i;
+          start1->coeff=c;
+          start1->next=NULL;
+          head=start1;
+          
+      }
+      else
+      {
+          head->next=new node;
+          head=head->next;
+          head->power=i;
+          head->coeff=c;
+          head->next=NULL;
+      }
+    }
+}
+void list::display(node *p)
+{
+    
+    while(p!=NULL)
+    {
+        if(p->next==NULL)
+        cout<<p->coeff;
+        else
+        cout<<p->coeff<<"x^"<<p->power<<"+";
+        p=p->next;
+    }
+}
+void list::addlist()
+{
+    node *n2=start,*n3=start1,*temp;;
+    while (n2&&n3) {
+                if (start2 == NULL) {
+                        start2=new node;
+                        temp = start2;
+                } else {
+                        temp->next = new node;
+                        temp = temp->next;
+                }
+
+                /* polynomial addition operation */
+                if (n2->power < n3->power) {
+                        temp->coeff = n3->coeff;
+                        temp->power = n3->power;
+                        n3 = n3->next;
+                } else if (n2->power > n3->power) {
+                        temp->coeff = n2->coeff;
+                        temp->power = n2->power;
+                        n2 = n2->next;
+                } else {
+                        temp->coeff = n2->coeff + n3->coeff;
+                        temp->power =  n2->power;
+                        n2 = n2->next;
+                        n3 = n3->next;
+                }
+        }
+
+        /*
+         * if some nodes in input list (n2) left remain, then add those
+         *  nodes to the output list (n3).
+         */
+        while (n2) {
+                if (start2 == NULL) {
+                        start2 = new node;
+                        temp = start2;
+                } else {
+                        temp->next = new node;
+                        temp = temp->next;
+                }
+                temp->coeff = n2->coeff;
+                temp->power = n2->power;
+                n2 = n2->next;
+        }
+
+        /*
+         * if some nodes in the input list (n3) left remain, then add those
+         * nodes to the output list n3.
+         */
+        while (n3) {
+                if (start2==NULL) {
+                        start2=new node;
+                        temp = start2;
+                } else {
+                        temp->next = new node;
+                        temp = temp->next;
+                }
+                temp->coeff = n2->coeff;
+                temp->power = n2->power;
+                n3 = n3->next;
+        }
+        return;
+  }
+    
+
+int main()
+{
+    list l;
+    l.getexp1();
+    l.display(l.start);;
+    l.getexp2();
+    l.display(l.start1);
+    l.addlist();
+    cout<<"\naddition of two polynomials is:\n";
+    l.display(l.start2);
+}

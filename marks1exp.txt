@@ -1,0 +1,141 @@
+#include<iostream>
+using namespace std;
+class student
+{
+    int marks[10],n;
+    public:
+    void create();
+    void display();
+    void highlow();
+    void same();
+    int average();
+    void absent();
+    
+};
+void student::create()
+{
+    cout<<"\nenter maximum number of students:";
+    cin>>n;
+    for(int i=0;i<n;i++)
+    {
+        cout<<"\nmarks"<<i<<":";
+        cin>>marks[i];
+    }
+}
+void student::display()
+{
+    cout<<"\nmarks of students are:";
+    for(int i=0;i<n;i++)
+    {
+        if(marks[i]==-1)
+        cout<<"\nabsent!!";
+        else
+        cout<<"\n"<<marks[i];
+    }
+}
+void student::highlow()
+{
+    int max=marks[0];
+    int min;
+    for(int i=0;i<n;i++)
+    {
+        if(marks[i]!=-1)
+        {
+           
+            min=marks[i];
+            break;
+            
+        }
+        
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(max<marks[i]&&marks[i]!=-1)
+        {
+            max=marks[i];
+        }
+        
+        
+    }
+        for(int i=0;i<n;i++)
+    {
+        if(min>marks[i]&&marks[i]!=-1)
+        {
+            min=marks[i];
+        }
+        
+    }
+    cout<<"\nminimum ans maximum marks are:"<<min<<"and"<<max;
+}
+int student::average()
+{
+    int avg=0;
+    for(int i=0;i<n;i++)
+    {
+        if(marks[i]!=-1)
+        avg=avg+marks[i];
+    }
+    avg=avg/n;
+    return avg;
+    
+}
+void student::absent()
+{
+    int count=0;
+    for(int i=0;i<n;i++)
+    {
+        if(marks[i]==-1)
+        count++;
+        
+    }
+    cout<<"\nabsent number of students are:"<<count;
+}
+void student::same()
+{
+    int key=0,count=0,b;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(marks[i]==marks[j]&&marks[i]!=-1)
+            {
+                count++;
+            }
+        }
+        if(count>key)
+        {
+            key=count;
+            b=marks[i];
+        }
+        count=0;
+    }
+    cout<<"\nmaximum same marks scored is:"<<b<<":"<<  key<<"times";
+}
+
+int main()
+{
+    student s;
+    int choice;
+    s.create();
+    do{
+    cout<<"\n1.display marks\n2.calculate avrage\n3.get max and min marks\n4.same number of marks\n5.absent number of students";
+    cout<<"\nenter your choice:";
+    cin>>choice;
+    switch(choice)
+    {
+        
+        case 1:s.display();
+        break;
+        case 2:
+        cout<<"\naverage marks are "<<s.average();
+        break;
+        case 3:s.highlow();
+        break;
+        case 4:s.same();
+        
+        break;
+        case 5:s.absent();
+        break;
+    }
+    }while(choice!=6);
+}

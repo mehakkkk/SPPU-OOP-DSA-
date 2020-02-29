@@ -1,0 +1,222 @@
+#include<iostream>
+using namespace std;
+class node
+{
+    node *next;
+    int data;
+    friend class list;
+};
+class list{
+    public:
+    node *start,*startp,*startn,*startm;
+    list()
+    {
+        start=startp=startn=startm=NULL;
+    }
+    void create();
+    void seperate();
+    void sort();
+    void merge();
+    void ndelete();
+    void display(node *);
+};
+void list::create()
+{
+    int n;
+    char ans;
+    node *head;
+    do{
+        cout<<"\nenter a number:";
+        cin>>n;
+        if(start==NULL)
+        {
+            start=new node;
+            start->next=NULL;
+            start->data=n;
+            head=start;
+        }
+        else
+        {
+            head->next=new node;
+            head=head->next;
+            head->data=n;
+            head->next=NULL;
+        }
+        cout<<"\ndo you want to continue?(y/n):";
+        cin>>ans;
+    }while(ans!='n');
+}
+void list::seperate()
+{
+    node *headp,*headn,*head;
+    head=start;
+    while(head!=NULL)
+    {
+        if(head->data>0)
+        {
+            if(startp==NULL)
+            {
+                startp=new node;
+                startp->next=NULL;
+                startp->data=head->data;
+                headp=startp;
+            }
+            else
+            {
+                headp->next=new node;
+                headp=headp->next;
+                headp->data=head->data;
+                headp->next=NULL;
+            }
+        }
+        else
+        {
+            if(startn==NULL)
+            {
+                startn=new node;
+                startn->next=NULL;
+                startn->data=head->data;
+                headn=startn;
+            }
+            else
+            {
+                headn->next=new node;
+                headn=headn->next;
+                headn->data=head->data;
+                headn->next=NULL;
+            }
+        }
+        head=head->next;
+    }
+}
+void list::sort()
+{
+    node *temp,*temp1;
+    int t;
+    for(temp=startp;temp!=NULL;temp=temp->next)
+    {
+        for(temp1=temp->next;temp1!=NULL;temp1=temp1->next)
+        {
+            if(temp->data>temp1->data)
+            {
+                t=temp->data;
+                temp->data=temp1->data;
+                temp1->data=t;
+            }
+        }
+    }
+    node *temp2,*temp3;
+    for(temp2=startn;temp2!=NULL;temp2=temp2->next)
+    {
+        for(temp3=temp2->next;temp3!=NULL;temp3=temp3->next)
+        {
+            if(temp2->data>temp3->data)
+            {
+                t=temp2->data;
+                temp2->data=temp3->data;
+                temp3->data=t;
+            }
+        }
+    }
+    
+}
+void list::merge()
+{
+    node *head=startn,*temp;
+    while(head!=NULL)
+    {
+        if(startm==NULL)
+        {
+            startm=new node;
+            startm->next=NULL;
+            startm->data=head->data;
+            temp=startm;
+        }
+        else
+        {
+            temp->next=new node;
+            temp=temp->next;
+            temp->data=head->data;
+            temp->next=NULL;
+        }
+        head=head->next;
+    }
+    node *headp=startp;
+    while(headp!=NULL)
+    {
+            temp->next=new node;
+            temp=temp->next;
+            temp->data=headp->data;
+            temp->next=NULL;
+            headp=headp->next;
+        
+    }
+}
+void list::display(node *p)
+{
+    while(p!=NULL)
+    {
+        cout<<"\t"<<p->data;
+        p=p->next;
+    }
+}
+void list::ndelete()
+{
+    node *head,*temp,*temp1;
+    head=start;
+    while(head!=NULL)
+    {
+        if(head->data<0)
+        {
+            start=head->next;
+            free(head);
+            head=start;
+        }
+        else
+        {
+            break;
+        }
+    }
+    head=start->next;
+    temp=start;
+    while(head!=NULL)
+    {
+        if(head->data<0)
+        {
+            temp->next=head->next;
+            temp=head->next;
+            free(head);
+            head=temp;
+        }
+        else
+        {
+            temp=head;
+            head=head->next;
+        }
+    }
+    
+}
+int main()
+{
+    list l;
+    l.create();
+    cout<<"\nlist of numbers is:\n";
+    l.display(l.start);
+    l.seperate();
+    cout<<"\nlist of positive numbers is:\n";
+    l.display(l.startp);
+    cout<<"\nlist of negative numbers is:\n";
+    l.display(l.startn);
+    l.sort();
+    cout<<"\nlist of positive sorted numbers is:\n";
+    l.display(l.startp);
+    cout<<"\nlist of negative sorted numbers is:\n";
+    l.display(l.startn);
+    l.merge();
+    cout<<"\nmerged list is:\n";
+    l.display(l.startm);
+    l.ndelete();
+    cout<<"\nafter deletion:";
+    l.display(l.start);
+    
+}

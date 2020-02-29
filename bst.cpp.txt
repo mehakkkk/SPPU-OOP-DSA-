@@ -1,0 +1,194 @@
+#include<iostream>
+#include<queue> 
+using namespace std;
+class Node
+{
+    public:
+    Node *right,*left;
+    int data;
+    Node()
+    {
+        right=left=NULL;
+        data=0;
+    }
+    friend class tree;
+};
+class tree
+{
+    public:
+    Node *curr,*root,*prev;
+    int data;
+    tree()
+    {
+        curr=root=prev=NULL;
+    }
+    void insertnode(int data)
+    {
+        curr= new Node();
+        curr->data=data;
+        prev=root;
+                while(1)
+                {
+                    if(prev->data>curr->data)
+                    {
+                        if(prev->left==NULL)
+                        {
+                        prev->left=curr;
+                        break;
+                        }
+                        else
+                        prev=prev->left;
+                    }
+                    else
+                    {
+                        if(prev->right==NULL)
+                        {
+                        prev->right=curr;
+                        break;
+                        }
+                        else
+                        prev=prev->right;
+                    }
+                }
+            
+    }
+    //inserting nodes in binary search tree
+    void insert()
+    {
+        cout<<"\nenter data:";
+        while(1)
+        {
+            
+            cin>>data;
+            curr=new Node();
+            curr->data=data;
+            if(data==0)
+            break;
+            if(root==NULL)
+            {
+                root=curr;
+                prev=curr;
+            }
+            else
+            {
+                prev=root;
+                while(1)
+                {
+                    if(prev->data>curr->data)
+                    {
+                        if(prev->left==NULL)
+                        {
+                        prev->left=curr;
+                        break;
+                        }
+                        else
+                        prev=prev->left;
+                    }
+                    else
+                    {
+                        if(prev->right==NULL)
+                        {
+                        prev->right=curr;
+                        break;
+                        }
+                        else
+                        prev=prev->right;
+                    }
+                }
+            }
+        }
+    }
+    int search()
+    {
+        Node *prev1;
+        
+        int data;
+        cout<<"\nenter no:";
+        cin>>data;
+        prev1 = root;
+        while(1)
+        {
+            if(data<prev1->data)
+            {
+                if(prev1->left==NULL)
+                break;
+                else
+                prev1=prev1->left;
+            }
+            else if(prev1->data==data)
+            {
+                return 1;
+                break;
+            }
+            else
+            {
+                if(prev1->right==NULL)
+                break;
+                else
+                prev1=prev1->right;
+                
+            }
+            
+        }
+        cout<<"\nnumber not found!";
+        
+    }
+    void minnode()
+    {
+        prev=root;
+        while(prev->left!=NULL)
+        {
+            prev=prev->left;
+        }
+        cout<<"\nminimum node in tree is:"<<prev->data;
+    }
+    void longestpath()
+    {
+        Node *current = root;
+        int no,cnt=0;
+        queue<Node *>queue;
+        queue.push(current);
+        while(!queue.empty())
+        {
+            current = queue.front();
+            queue.pop();
+            cout<<"\t"<<current->data;
+            if(current->left!=NULL)
+            queue.push(current->left);
+            else if(current->right!=NULL)
+            queue.push(current->right);
+            else if(current->left==NULL||current->right==NULL)
+            no = current->data;
+        }
+        current = root;
+        while(current!=NULL)
+        {
+            cnt++;
+            if(no == current->data)
+            break;
+            if(no<current->data)
+            {
+                current=current->left;
+            }
+            else
+            current=current->right;
+            
+        }
+        cout<<"\nlongest path is of nodes:"<<cnt;
+        
+        
+    }
+};
+int main()
+{
+    int data;
+   tree t;
+   t.insert();
+   if(t.search()==1)
+   cout<<"\nnumber found";
+   cout<<"\nnumber to append to node:";
+   cin>>data;
+   t.insertnode(data);
+   t.minnode();
+   t.longestpath();
+}

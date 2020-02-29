@@ -1,0 +1,91 @@
+#include<iostream>
+using namespace std;
+class students
+{
+    int marks[10],size;
+    public:
+    void bubblesort();
+    void selectsort();
+    void getmarks();
+    void displaytop5();
+};
+void students::getmarks()
+{
+    cout<<"\nenter maximum number of students:";
+    cin>>size;
+    cout<<"\nenter percentage of students:";
+    for(int i=0;i<size;i++)
+    cin>>marks[i];
+    
+}
+void students::bubblesort()
+{
+    int i,j,temp;
+    for(i=0;i<size;i++)
+    {
+        for(j=0;j<size-i;j++)
+        {
+            if(marks[j]>marks[j+1])
+            {
+                temp=marks[j];
+                marks[j]=marks[j+1];
+                marks[j+1]=temp;
+            }
+        }
+    }
+    cout<<"\nafter bubble sort percentage are:\n";
+    for(i=0;i<size;i++)
+    cout<<"\t"<<marks[i];
+}
+void students::selectsort()
+{
+    int i,j,temp;
+    for(i=0;i<size;i++)
+    {
+        for(j=i+1;j<size;j++)
+        {
+            if(marks[i]>marks[j])
+            {
+                temp=marks[i];
+                marks[i]=marks[j];
+                marks[j]=temp;
+            }
+        }
+    }
+    cout<<"\nafter bubble sort percentage are:\n";
+    for(i=0;i<size;i++)
+    cout<<"\t"<<marks[i];
+    
+}
+void students::displaytop5()
+{
+    int i,count=5;
+    for(i=size-1;i>=0;i--)
+    {
+        if(count==0)
+        break;
+        else
+        {
+            cout<<"\t"<<marks[i];
+            count--;
+        }
+    }
+}
+int main()
+{
+    students s;
+    s.getmarks();
+    int choice;
+    cout<<"\n1.sort by selection sort\n2.sort by bubble sort\n";
+    cout<<"\nenter your choice:";
+    cin>>choice;
+    switch(choice)
+    {
+        case 1:s.selectsort();
+        break;
+        case 2:s.bubblesort();
+        break;
+    }
+    cout<<"\ntop 5 scores are:\n";
+    s.displaytop5();
+}

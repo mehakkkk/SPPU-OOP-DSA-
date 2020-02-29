@@ -1,0 +1,129 @@
+#include<iostream>
+#include<array>
+#include<stack>
+using namespace std;
+class Node
+{
+    Node *right,*left;
+    int data;
+    public:
+    Node()
+    {
+        right=left=NULL;
+        data=0;
+    }
+    friend class tree;
+};
+class tree
+{
+    Node *root,*curr,*prev;
+    stack<Node*>stk;
+    Node *arr[30];
+    int count=0;
+    public:
+    tree()
+    {
+        root=curr=prev=NULL;
+    }
+    void insert()
+    {
+        int data;
+        cout<<"\nenter data:";
+        while(1)
+        {
+            
+            cin>>data;
+            curr=new Node();
+            curr->data=data;
+            if(data==0)
+            break;
+            if(root==NULL)
+            {
+                root=curr;
+                prev=curr;
+            }
+            else
+            {
+                prev=root;
+                while(1)
+                {
+                    if(prev->data>curr->data)
+                    {
+                        if(prev->left==NULL)
+                        {
+                        prev->left=curr;
+                        break;
+                        }
+                        else
+                        prev=prev->left;
+                    }
+                    else
+                    {
+                        if(prev->right==NULL)
+                        {
+                        prev->right=curr;
+                        break;
+                        }
+                        else
+                        prev=prev->right;
+                    }
+                }
+            }
+        }
+    }
+    void inorder()
+    {
+        int i=0;
+            Node *current =root;
+            while(current!=NULL||!stk.empty())
+            {
+                while(current!=NULL)
+                {
+                    stk.push(current);
+                    current=current->left;
+                }
+                current = stk.top();
+                stk.pop();
+                cout<<current->data<<"\t";
+                arr[i]=current;
+                i++;
+                count++;
+                current=current->right;
+            }
+            //cout<<"\n"<<i;
+        
+    }
+     
+    void display_array()
+    {
+        //cout<<"\n"<<count;
+        for(int i=0;i<count;i++)
+        cout<<arr[i]->data<<"\t";
+        
+    }
+    void operation()
+    {
+        int i;
+        //connect first node right part and keep left part as NULL
+        arr[0]->right = arr[1];
+        for(i=1;i<count-1;i++)
+        {
+            if(arr[i]->left==NULL)
+            arr[i]->left = arr[i-1];
+            if(arr[i]->right==NULL)
+            arr[i]->right=arr[i+1];
+        }
+        //now connect last node left part to decessor and right part NULL
+        arr[count-1]->left = arr[i-1];
+        cout<<"\nsuccessfully created!";
+    }
+};
+int main()
+{
+    tree t;
+    t.insert();
+    t.inorder();cout<<"\n";
+    t.display_array();
+    t.operation();
+    return 0;
+}

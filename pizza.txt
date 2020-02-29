@@ -1,0 +1,134 @@
+#include<iostream>
+using namespace std;
+class pizza
+{
+    int front,rear,maxord,q[10],i;
+    public:
+    pizza()
+    {
+        front=-1;
+        rear=-1;
+        cout<<"\nenter maximum orders in queue:";
+        cin>>maxord;
+    }
+    void order(int choice);
+    int bill(int choice);
+    int isfull();
+    int isempty();
+    void serve();
+    void display();
+};
+int pizza::isfull()
+{
+    if(front==0&&rear==maxord-1||front==rear+1)
+    return 1;
+    else
+    return 0;
+}
+int pizza::isempty()
+{
+    if(front==-1&&rear==-1)
+    return 1;
+    else return 0;
+}
+void pizza::order(int choice)
+{
+    if(isfull()==1)
+    cout<<"\nqueue is full wait until orders get processed!!";
+    else
+    {
+        if(front==-1)
+        {
+            front++;
+            rear++;
+            q[rear]=choice;
+        }
+        else if(rear==(maxord-1)&&front!=0)
+        {
+            rear=0;
+            q[rear]=choice;
+        }
+        else
+        {
+            rear++;
+            q[rear]=choice;
+        }
+        cout<<"\nyour bill for your pizza is:"<<bill(choice);
+    }
+}
+void pizza::serve()
+{
+    if(isempty()==0)
+    {
+     if(front==rear)
+   {
+       front=-1;
+       rear=-1;
+       cout<<"\nall orders served!!";
+   }
+   else if(front==maxord)
+   {
+       front=0;
+   }
+   else
+   front++;
+   cout<<"\norder served!";
+    }
+    else
+    cout<<"\nno order!!";
+}
+void pizza::display()
+{
+    if(isempty()==1)
+    cout<<"\nno orders!!";
+    else
+    {
+        if(front<=rear)
+        {
+            for(i=front;i<=rear;i++)
+            cout<<"\norder->"<<q[i];
+        }
+        else if(front>rear)
+        {
+            for(i=front;i<maxord;i++)
+            cout<<"\norder->"<<q[i];
+            for(i=rear;i<front;i++)
+            cout<<"\norder->"<<q[i];
+        }
+    }
+    
+}
+int pizza::bill(int choice)
+{
+    int bill1=0;
+    if(choice==1)
+    bill1=150;
+    else if(choice==2)
+    bill1=120;
+    else if(choice==3)
+    bill1=300;
+    return bill1;
+}
+int main()
+{
+    pizza p;
+    int choice,var;
+    do{
+    cout<<"\n1.order pizza\n2.get your pizza\n3.pending orders";
+    cout<<"\nenter your choice:";
+    cin>>choice;
+    switch(choice)
+    {
+        case 1:cout<<"\n1.cheese pizza-Rs 150\n2.corn pizza-Rs120\n3.chicken pixxa-Rs300\n";
+                cout<<"\nenter your choice:";
+                cin>>var;
+                p.order(var);
+                break;
+        case 2:p.serve();
+        break;
+        case 3:p.display();
+        break;
+                
+    }
+    }while(choice!=5);
+}

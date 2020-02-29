@@ -1,0 +1,78 @@
+#include<iostream>
+using namespace std;
+class students
+{
+    int marks[10],size;
+    public:
+    void getmarks();
+    void display();
+    void quicksort(int marks[],int first,int last);
+    void displaytop5();
+};
+void students::getmarks()
+{
+    cout<<"\nenter maximum number of students:";
+    cin>>size;
+    cout<<"\nenter student marks:";
+    for(int i=0;i<size;i++)
+    cin>>marks[i];
+    quicksort(marks,0,size-1);
+}
+void students::display()
+{
+    cout<<"\nafter sorting marks are:\n";
+    for(int i=0;i<size;i++)
+    cout<<"\t"<<marks[i];
+}
+void students::quicksort(int marks[],int first,int last)
+{
+    int i,j,pivot,temp;
+    if(first<last)
+    {
+        i=first;
+        j=last;
+        pivot=first;
+        while(i<j)
+        {
+        while(marks[i]<=marks[pivot])
+        i++;
+        while(marks[j]>marks[pivot])
+        j--;
+        if(i<j)
+        {
+            temp=marks[i];
+            marks[i]=marks[j];
+            marks[j]=temp;
+        }
+        }
+        temp=marks[pivot];
+        marks[pivot]=marks[j];
+        marks[j]=temp;
+        quicksort(marks,first,j-1);
+        quicksort(marks,j+1,last);
+    }
+}
+void students::displaytop5()
+{
+    cout<<"\nafter sorting top 5 scores are:\n";
+    int count=5;
+    for(int i=size-1;i>=0;i--)
+    {
+        if(count==0)
+        break;
+        else
+        {
+            cout<<"\t"<<marks[i];
+            count--;
+        }
+        
+    }
+}
+int main()
+{
+    students s;
+    s.getmarks();
+   // s.quicksort();
+   s.display();
+    s.displaytop5();
+}

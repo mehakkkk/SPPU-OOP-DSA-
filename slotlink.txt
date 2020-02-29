@@ -1,0 +1,146 @@
+#include<iostream>
+using namespace std;
+class node
+{
+    node *next;
+    int appoint;
+    float start,end;
+    friend class slot;
+};
+class slot
+{
+    node *slotn;
+    public:
+    slot()
+    {
+        slotn=NULL;
+    }
+    void create();
+    void booking();
+    void cancel();
+    void sort();
+    void display();
+};
+void slot::create()
+{
+    node *head;
+    int c;
+    int appoint;//for maximum booking in one slot
+    float start,end;
+    do{
+    cout<<"\nenter start time:";
+    cin>>start;
+    cout<<"\nenter end time:";
+    cin>>end;
+    cout<<"\nenter maximum number of booking in this slot:";
+    cin>>appoint;
+    if(slotn==NULL)
+    {
+        slotn=new node;
+        slotn->start=start;
+        slotn->end=end;
+        slotn->appoint=appoint;
+        //slotn->next=NULL;
+        head=slotn;
+    }
+    else
+    {
+        head->next=new node;
+        head=head->next;
+        head->start=start;
+        head->appoint=appoint;
+        head->end=end;
+        head->next=NULL;
+    }
+    cout<<"\ndo you want to create another slot?:";
+    cin>>c;
+    }while(c!=0);
+}
+void slot::display()
+{
+    node *p=slotn;
+    while(p!=NULL)
+    {
+        cout<<"\tstart time:"<<p->start<<"\tend time:"<<p->end<<"\tappoint:"<<p->appoint;
+        cout<<"\n";
+        p=p->next;
+    }
+}
+void slot::booking()
+{
+    node *head=slotn;
+    float start;
+    cout<<"\nenter slot starting time to book:";
+    cin>>start;
+    while(head!=NULL)
+    {
+        if(head->start==start)
+        {
+            if(head->appoint==0)
+            cout<<"\nsorry slot is full";
+            else
+            {
+                head->appoint-=1;
+                cout<<"\nyour appointment booked!";
+            }
+        }
+        head=head->next;
+    }
+}
+void slot::cancel()
+{
+    float start;
+    cout<<"\nenter slot to cancel its all booking:";
+    cin>>start;
+    node *head=slotn,*temp;
+    if(head->start==start)
+    {
+        slotn=slotn->next;
+        free(head);
+    }
+    else
+    {
+        while(head!=NULL)
+        {
+            if(head->start==start)
+            {
+                temp->next=head->next;
+                free(head);
+            }
+            else
+            {
+                temp=head;
+                head=head->next;
+            }
+        }
+    }
+}
+void slot::sort()
+{
+    
+    for(node *head=slotn;head!=NULL;head=head->next)
+    {
+        for(node *head1=head->next;head1!=NULL;head1=head1->next)
+        {
+            if(head->start>head1->start)
+            {
+                float start=head->start;
+                float end=head->end;
+                head->start=head1->start;
+                head->end=head1->end;
+                head1->start=start;
+                head1->end=end;
+            }
+        }
+    }
+}
+int main()
+{
+    slot s;
+    s.create();
+    s.display();
+    s.booking();
+    s.cancel();
+    s.sort();
+    s.display();
+}

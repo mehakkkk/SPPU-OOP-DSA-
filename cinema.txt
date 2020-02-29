@@ -1,0 +1,163 @@
+#include<iostream>
+using namespace std;
+class node
+{
+    node *next,*prev;
+    char data;
+    friend class cinema;
+};
+class cinema
+{
+    node *start[10];
+    public:
+    void hall();
+    void random();
+    void book();
+    void cancel();
+    void display();
+};
+void cinema::hall()
+{
+    node *head,*temp;
+    int i,j;
+    for(i=0;i<10;i++)
+    {
+        start[i]=NULL;
+        for(j=0;j<7;j++)
+        {
+            if(start[i]==NULL)
+            {
+                start[i]=new node;
+                start[i]->data='A';
+                start[i]->next=NULL;
+                start[i]->prev=NULL;
+                head=start[i];
+                temp=head;
+            }
+            else
+            {
+                head->next=new node;
+              
+               head=head->next;
+                head->data='A';
+                head->prev=temp;
+                temp->next=head;
+                head->next=NULL;
+                temp=head;
+            }
+        }
+        head->next=start[i];
+        start[i]->prev=head;
+    }
+}
+void cinema::display()
+{
+    node *p;
+    for(int i=0;i<10;i++)
+    {
+        p=start[i];
+        for(int j=0;j<7;j++)
+        {
+            cout<<"\t"<<j+1<<")"<<p->data;
+            p=p->next;
+            
+        }
+        cout<<"\n";
+    }
+}
+void cinema::book()
+{
+    int row,col;
+    node *head;
+    cout<<"\nenter row to book:";
+    cin>>row;
+    cout<<"\nenter column to book:";
+    cin>>col;
+    for(int i=0;i<10;i++)
+    {
+        head=start[i];
+        for(int j=0;j<7;j++)
+        {
+            if(i==(row-1)&&j==(col-1))
+            {
+                if(head->data=='B')
+                cout<<"\nalready booked!!";
+                else
+                {
+                    head->data='B';
+                    cout<<"\nseat booked successfully!!\n";
+                }
+            }
+            head=head->next;
+        }
+    }
+}
+void cinema::random()
+{
+    //random seat booking row 1 col 4 5
+    //row4 col 6 7 //row 8 col 1 2 
+    //int row,col;
+    for(int i=0;i<10;i++)
+    {
+        node *head=start[i];
+        {
+            for(int j=0;j<7;j++)
+            {
+                if(i==1&&(j==4||j==5)||i==4&&(j==6||j==7)||i==8&&(j==1||j==2))
+                {
+                    head->data='B';
+                }
+                head=head->next;
+            }
+        }
+        
+    }
+}
+void cinema::cancel()
+{
+    int row,col;
+    cout<<"\nenter seat row:";
+    cin>>row;
+    cout<<"\nenter column number of"<<row<<"to cancel seat:";
+    cin>>col;
+    for(int i=0;i<10;i++)
+    {
+        node *head=start[i];
+        for(int j=0;j<7;j++)
+        {
+            if(i==(row-1)&&j==(col-1))
+            {
+                if(head->data=='A')
+                cout<<"\nseat not booked!!";
+                else
+                {
+                    head->data='A';
+                    cout<<"\nbooking cancelled!!\n";
+                }
+            }
+            head=head->next;
+        }
+    }
+}
+int main()
+{
+    cinema l;
+    l.hall();
+    l.random();
+    int choice;
+    do{
+        cout<<"\n1.book seat\n2.cancel seat\n3.display cinema hall\n";
+        cout<<"\nenter your choice:";
+        cin>>choice;
+        switch(choice)
+        {
+            case 1:l.book();
+            break;
+            case 2:l.cancel();
+            break;
+            case 3:l.display();
+            break;
+        }
+    }while(choice!=4);
+   
+}

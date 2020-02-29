@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+class stack
+{
+	int st[50];
+	public:
+	int top,flag;
+	stack()
+	{
+		top=-1;
+		flag=0;
+	}
+	void evaluate(char c);
+	void pop(char c);
+	void push(char c);
+};
+void stack::evaluate(char c)
+{
+	if(c=='('||c=='['||c=='{')
+	push(c);
+	else if(c==')'||c==']'||c=='}')
+	pop(c);
+}
+void stack::push(char c)
+{
+	top++;
+	st[top]=c;
+}
+void stack::pop(char c)
+{
+	//if(top!=-1)
+	//{
+	if(c==')'&&st[top]=='('||c==']'&&st[top]=='['||c=='}'&&st[top]=='{')
+	top--;
+	else
+
+		flag=1;
+	
+	/*else
+	{
+		flag=1;
+	}*/
+	
+	
+	
+
+}
+int main()
+{
+	char q[30];
+	int i;
+	stack stack;
+	cout<<"\nenter a equation";
+	cin>>q;
+	for(i=0;q[i]!='\0';i++)
+	stack.evaluate(q[i]);
+	if(stack.top!=-1||stack.flag==1)
+	cout<<"\ninvalid equation";
+	else
+	cout<<"\nvalid equation";
+	return 0;
+
+
+}

@@ -1,0 +1,156 @@
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+class Node
+{
+    public:
+    Node *right,*left;
+    char data;
+    
+    Node()
+    {
+        right=left=NULL;
+    }
+};
+class tree
+{
+    stack<char>stk1;
+    stack<Node*>stk;
+    stack<Node*>
+    Node *current,*root,*prev1;
+    public:
+    tree()
+    {
+        current=root=prev1=NULL;
+    }
+    char postfix[20];
+    int i=0;
+    int priority(char c)
+        {
+            if(c=='+'||c=='-')
+            return 1;
+            else if(c=='*'||c=='/')
+            return 2;
+            else 
+            return 0;
+        }
+        void construct()
+        {
+            for(int i=0;postfix[i]!='\0';i++)
+            {
+            current=new Node();
+            current->data=postfix[i];
+            if(current->data>='a'&&current->data<='z')
+            {
+                current->left=current->right=NULL;
+                stk.push(current);
+            }
+            else
+            {
+                current->right=stk.top();
+                stk.pop();
+                current->left=stk.top();
+                stk.pop();
+                stk.push(current);
+            }
+            }
+            root=current;
+            postorder(root);
+            
+    }
+        
+    void convert(char c)
+    {
+        
+        if(c=='+'||c=='-'||c=='/'||c=='*')
+        {
+                while(1)
+                {
+                    if(stk1.empty())
+                {
+                    stk1.push(c);
+                    break;
+                }
+                    int y1 = priority(c);
+                    int y2 = priority(stk1.top());
+                
+                    if(y1>y2)
+                    {
+                        stk1.push(c);
+                        break;
+                    }
+                    else if(y2>=y1)
+                    {
+                        postfix[i]=stk1.top();
+                        stk1.pop();
+                        i++;
+                    }
+                    
+                }
+            
+        }
+        else
+        {
+            postfix[i]=c;
+            i++;
+        }
+        
+    }
+    void postorder(Node *r)
+    {
+        
+			if(r == NULL)
+				return;
+			
+			postorder(r->left);
+			postorder(r->right);
+			cout<<r->data<<" ";
+    }
+    /*void empty()
+    {
+        while(!stk1.empty())
+        {
+            postfix[i]=stk1.top();
+            stk1.pop();
+            i++;
+        }
+    }*/
+    void empty()
+    {
+        while(!stk1.empty())
+        {
+            postfix[i]=stk1.top();
+            stk1.pop();
+            i++;
+        }
+        
+    }
+    
+};
+int main()
+{
+    string infix;
+    tree t;
+    cout<<"\nenter a infix expression:";
+    cin>>infix;
+    for(int i=0;infix[i]!='\0';i++)
+    {
+    t.convert(infix[i]);
+    }
+    //t.empty();
+    t.empty();
+    cout<<"\n"<<t.postfix;
+    cout<<"\n";
+    t.construct();
+    //t.postorder();
+    
+    
+}
+/*
+Push root into Stack_One.
+while(Stack_One is not empty)
+Pop the node from Stack_One and push it into Stack_Two.
+Push the left and right child nodes of popped node into Stack_One.
+End Loop
+Pop out all the nodes from Stack_Two and print it.*/

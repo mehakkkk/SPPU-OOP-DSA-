@@ -1,0 +1,111 @@
+#include<iostream>
+#include<string.h>
+#include<conio.h>
+using namespace std;
+class code
+{
+    public:
+    int top,j;
+    char v;
+    char stack[20],s1[30];
+    public:
+    code()
+    {
+        top=-1;
+        j=0;
+    }
+    void push(char c);
+    char pop();
+    int priority(char c);
+    void evaluate(char c);
+    //char stacktop();
+    
+};
+
+int code::priority(char c)
+{
+    if(c=='+'||c=='-')
+    return 2;
+    else if(c=='*'||c=='/')
+    return 3;
+    else
+    return 1;
+}
+void code::push(char c)
+{
+    top++;
+    stack[top]=c;
+}
+void code::evaluate(char c)
+{
+   
+    int y,y1;
+    {
+        if(c=='/'||c=='*'||c=='-'||c=='+')
+        {
+            y=priority(c);
+            y1=priority(stack[top]);
+            if(top==-1)
+            push(c);
+            else if(y1>=y)
+            {
+                pop();
+                push(c);
+                s1[j]=v;
+                j++;
+            }
+            else if(y1<y)
+            {
+                push(c);
+            }
+        }
+            else if(c=='(')
+            push(c);
+            else if(c==')')
+            {
+            while(stack[top]!='(')
+            {
+                pop();
+                s1[j]=v;
+                j++;
+            }
+            pop();
+            }
+            else
+            {
+                s1[j]=c;
+                j++;
+            }
+        
+    }
+   
+    
+}
+char code::pop()
+{
+     v=stack[top];
+    top--;
+    return v;
+}
+int main()
+{
+    char infix[20];
+    code b;
+    cout<<"\nenter a infix string:";
+    cin>>infix;
+    for(int i=0;infix[i]!='\0';i++)
+    {
+        b.evaluate(infix[i]);
+    }
+       while(b.top!=-1)
+       {
+        b.pop();
+        b.s1[b.j]=b.v;
+        b.j++;
+       }
+       
+    cout<<"\npostfix string is:"<<b.s1;
+    
+        
+    
+}

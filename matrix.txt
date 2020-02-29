@@ -1,0 +1,280 @@
+#include<iostream>
+using namespace std;
+class matrix
+{
+    int a[10][10],b[10][10],row,col;
+    public:
+    void create(int n);
+    void display(int n);
+    void add();
+    void subtract();
+    void multiply();
+    void transpose(int n);
+    void diagonal(int n);
+    void upper(int n);
+    void saddle();
+};
+void matrix::create(int n)
+{
+    int i,j;
+    cout<<"\nenter number of rows:";
+    cin>>row;
+    cout<<"\nenter number of columns:";
+    cin>>col;
+    if(n==1)
+    {
+        cout<<"\nenter elements in 1 matrix:";
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            cin>>a[i][j];
+        }
+    }
+    else
+    {
+        cout<<"\nenter element in 2 matrix:";
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            {
+                cin>>b[i][j];
+            }
+        }
+    }
+}
+void matrix::display(int n)
+{
+    int i,j;
+    if(n==1)
+    {
+        cout<<"\nelements in 1 matrix are:\n";
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            {
+            cout<<a[i][j];
+            cout<<"\t";
+            }
+            cout<<"\n";
+        }
+        
+    }
+    else
+    {
+        cout<<"\nelement in 2 matrix are:\n";
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            {
+                cout<<b[i][j]<<"\t";
+            }
+            cout<<"\n";
+        }
+    }
+}
+void matrix::add()
+{
+    int c[10][10],i,j;
+    
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            c[i][j]=a[i][j]+b[i][j];
+        }
+    }
+    cout<<"\naddition of two matrix is:\n";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cout<<c[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+void matrix::subtract()
+{
+    int c[10][10],i,j;
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            c[i][j]=a[i][j]-b[i][j];
+        }
+    }
+    cout<<"\nsubtraction of two matrix is:\n";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cout<<c[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+void matrix::upper(int n)
+{
+    int i,j,flag=0;
+    if(n==1)
+    {   
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            {
+                if(i<j)
+                {
+                    if(a[i][j]!=0)
+                    flag=1;
+                }
+            }
+        }
+    
+    if(flag==0)
+    cout<<"\nupper triangular matrix";
+    else
+    cout<<"\nnot a upper triangular matrix";
+    }
+    
+    else
+    {   
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            {
+                if(i<j)
+                {
+                    if(b[i][j]!=0)
+                    flag=1;
+                }
+            }
+        }
+    
+    if(flag==0)
+    cout<<"\nupper triangular matrix";
+    else
+    cout<<"\nnot a upper triangular matrix";
+    }
+}
+void matrix::transpose(int n)
+{
+    int c[10][10],i,j;
+    if(n==1)
+    {
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            {
+                c[i][j]=a[j][i];
+            }
+        }
+    }
+    else
+    {
+        
+        for(i=0;i<row;i++)
+        {
+            for(j=0;j<col;j++)
+            {
+                c[i][j]=b[j][i];
+            }
+        }
+    }
+    cout<<"\ntranspose of matrix is:\n";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cout<<c[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+void matrix::multiply()
+{
+    int i,j,c[10][10],k;
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            c[i][j]=0;
+            for(k=0;k<row;k++)
+            {
+                c[i][j]=c[i][j]+(a[i][k]*b[k][j]);
+            }
+        }
+    }
+    cout<<"\nmultiplication of two matrix is:\n";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cout<<c[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+void matrix::saddle()
+{
+    int min,col_index,k,i,j;
+    for(i=0;i<row;i++)
+    {
+        min=a[i][0];
+        for(j=0;j<col;j++)
+        {
+            if(min>a[i][j])
+            {
+                min=a[i][j];
+                col_index=j;
+            }
+        }
+    }
+    for(k=0;k<row;k++)
+    {
+        if(min<a[k][j])
+        {
+            
+            break;
+        }
+    }
+    if(k==row)
+    cout<<"nsaddle point"<<min;
+}
+int main()
+{
+    matrix m;
+    int n,choice;
+    do{
+    cout<<"\n1.create\n2.display\n3.add\n4.subtract\n5.upper\n6.transpose\n7multiply\n8.saddle";
+    cout<<"\nenter your choice:";
+    cin>>choice;
+    switch(choice)
+    {
+        case 1:cout<<"\nenter matrix(1/2):";
+                cin>>n;
+                m.create(n);
+                break;
+        case 2:cout<<"\nenter matrix to display (1/2):";
+                cin>>n;
+                m.display(n);
+                break;
+        case 3:m.add();
+                break;
+        case 4:m.subtract();
+                break;
+        case 5:cout<<"\nenter matrix(1/2):";
+                cin>>n;
+                m.upper(n);
+                break;
+        case 6:cout<<"\nenter matrix (1/2): ";
+                cin>>n;
+                m.transpose(n);
+                break;
+        case 7:m.multiply();
+                break;
+        case 8:cout<<"\nsaddle point for 1 matrix:";
+                m.saddle();
+                break;
+    }
+    }while(choice!=9);
+}

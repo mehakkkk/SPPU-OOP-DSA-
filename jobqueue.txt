@@ -1,0 +1,89 @@
+#include<iostream>
+using namespace std;
+class queue 
+{
+    int q[10],front,rear,size;
+    public:
+    queue()
+    {
+        front=rear=-1;
+        cout<<"\nenter size of queue:";
+        cin>>size;
+    }
+    void enqueue(int x);
+    int isfull();
+    int isempty();
+    void dequeue();
+    void display();
+};
+int queue::isfull()
+{
+    if(rear==size-1)
+    return 1;
+    else 
+    return 0;
+}
+int queue::isempty()
+{
+    if(front==-1)
+    return 1;
+    else
+    return 0;
+}
+void queue::enqueue(int x)
+{
+    if(isfull()==1)
+    cout<<"\nqueue is full";
+    else
+    {
+        rear++;
+        q[rear]=x;
+        if(front==-1)
+        front=front+1;
+    }
+}
+void queue::display()
+{
+    if(isempty()==1)
+    cout<<"\nqueue is empty!";
+    else
+    {
+        for(int i=front;i<=rear;i++)
+        {
+            cout<<"\t"<<q[i];
+        }
+    }
+}
+void queue::dequeue()
+{
+    if(isempty()==1)
+    cout<<"\nqueue is empty!";
+    else
+    {
+        front++;
+        cout<<"\njob successfully done!!";
+    }
+}
+int main()
+{
+    queue s;
+    int choice,x;
+    do{
+    cout<<"\n1.enter a job\n2.complete a job\n3.display pending jobs\n";
+    cout<<"\nenter your choice:";
+    cin>>choice;
+    switch(choice)
+    {
+        case 1:cout<<"\nenter a job:";
+                cin>>x;
+                s.enqueue(x);
+                break;
+        case 2:s.dequeue();
+        break;
+        case 3:cout<<"\npending jobs are:\n";
+                s.display();
+                break;
+    }
+    }while(choice!=4);
+    
+}
